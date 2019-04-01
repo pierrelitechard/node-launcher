@@ -16,15 +16,15 @@ class NodesLayout(QGridLayout):
 
         self.columns = 2
         self.image_label = ImageLabel()
-        self.image_label.set_image(f'bitcoin-{self.node_set.bitcoin.network}.png')
+        self.image_label.set_image(f'litecoin-{self.node_set.litecoin.network}.png')
         self.addWidget(self.image_label, row_span=5)
 
         self.addWidget(SectionName('Nodes'), column=self.columns)
-        # Bitcoin-Qt button
-        self.bitcoin_qt_button = QPushButton('Launch Bitcoin')
+        # Litecoin-Qt button
+        self.litecoin_qt_button = QPushButton('Launch Litecoin')
         # noinspection PyUnresolvedReferences
-        self.bitcoin_qt_button.clicked.connect(self.node_set.bitcoin.launch)
-        self.addWidget(self.bitcoin_qt_button, column=self.columns)
+        self.litecoin_qt_button.clicked.connect(self.node_set.litecoin.launch)
+        self.addWidget(self.litecoin_qt_button, column=self.columns)
 
         # LND button
         self.lnd_button = QPushButton('Launch LND')
@@ -41,12 +41,12 @@ class NodesLayout(QGridLayout):
         self.addWidget(HorizontalLine(), column=self.columns)
 
     def set_button_state(self):
-        # Can not launch Bitcoin
-        self.bitcoin_qt_button.setDisabled(
-            self.node_set.bitcoin.running
+        # Can not launch Litecoin
+        self.litecoin_qt_button.setDisabled(
+            self.node_set.litecoin.running
         )
 
-        # Need to have Bitcoin running to launch LND
+        # Need to have Litecoin running to launch LND
         disable_lnd_launch = (self.node_set.lnd.running
-                              or not self.node_set.bitcoin.running)
+                              or not self.node_set.litecoin.running)
         self.lnd_button.setDisabled(disable_lnd_launch)

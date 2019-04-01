@@ -5,9 +5,9 @@ from typing import Dict
 
 from node_launcher.logging import log
 
-NODE_LAUNCHER_RELEASE = '.'.join(map(str, (5, 6, 0)))
+NODE_LAUNCHER_RELEASE = '.'.join(map(str, (5, 6, '0-LTC')))
 
-TARGET_BITCOIN_RELEASE = 'v0.17.1'
+TARGET_LITECOIN_RELEASE = 'v0.16.3'
 TARGET_LND_RELEASE = 'v0.5.2-beta'
 
 
@@ -70,15 +70,15 @@ LND_DIR_PATH: Dict[OperatingSystem, str] = {
     WINDOWS: os.path.join(LOCALAPPDATA, 'Lnd')
 }
 
-BITCOIN_DATA_PATH: Dict[OperatingSystem, str] = {
-    DARWIN: expanduser('~/Library/Application Support/Bitcoin/'),
-    LINUX: expanduser('~/.bitcoin'),
-    WINDOWS: os.path.join(APPDATA, 'Bitcoin')
+LITECOIN_DATA_PATH: Dict[OperatingSystem, str] = {
+    DARWIN: expanduser('~/Library/Application Support/Litecoin/'),
+    LINUX: expanduser('~/.litecoin'),
+    WINDOWS: os.path.join(APPDATA, 'Litecoin')
 }
 
 UPGRADE = 'Please download the latest version of the Node Launcher: ' \
-                    '<a href="https://github.com/PierreRochard/node-launcher/releases/">' \
-                    'https://github.com/PierreRochard/node-launcher/releases' \
+                    '<a href="https://github.com/pierrelitechard/node-launcher/releases/">' \
+                    'https://github.com/pierrelitechard/node-launcher/releases' \
                     '</a>'
 
 GIGABYTE = 1000000000
@@ -97,17 +97,17 @@ if IS_LINUX:
 
 AUTOPRUNE_GB = 150
 # How many megabytes to keep
-# Total Bitcoin (mainnet) data directory size minus blocks is ~3 GB
+# Total Litecoin (mainnet) data directory size minus blocks is ~3 GB
 # We are targeting 10 GB, so 10 - 3 = 7
 MAINNET_PRUNE = 7000
 
 TESTNET_PRUNE = 1000
 
-BITCOIN_TESTNET_PEER_PORT = 18333
-BITCOIN_MAINNET_PEER_PORT = 8333
+LITECOIN_TESTNET_PEER_PORT = 19333
+LITECOIN_MAINNET_PEER_PORT = 9333
 
-BITCOIN_TESTNET_RPC_PORT = 18332
-BITCOIN_MAINNET_RPC_PORT = 8332
+LITECOIN_TESTNET_RPC_PORT = 19332
+LITECOIN_MAINNET_RPC_PORT = 9332
 
 LND_DEFAULT_PEER_PORT = 9735
 LND_DEFAULT_GRPC_PORT = 10009
@@ -118,7 +118,7 @@ log.info(
     'constants',
     OPERATING_SYSTEM=OPERATING_SYSTEM,
     NODE_LAUNCHER_RELEASE=NODE_LAUNCHER_RELEASE,
-    TARGET_BITCOIN_RELEASE=TARGET_BITCOIN_RELEASE,
+    TARGET_LITECOIN_RELEASE=TARGET_LITECOIN_RELEASE,
     TARGET_LND_RELEASE=TARGET_LND_RELEASE
 )
 
@@ -166,7 +166,7 @@ LNCLI_COMMANDS = [
     'walletbalance'
 ]
 
-BITCOIN_CLI_COMMANDS = [
+LITECOIN_CLI_COMMANDS = [
     'getbestblockhash',
     'addnode',
     'clearbanned',

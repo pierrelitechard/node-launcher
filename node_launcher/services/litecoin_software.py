@@ -5,26 +5,26 @@ from node_launcher.constants import (
     IS_MACOS,
     IS_WINDOWS,
     OPERATING_SYSTEM,
-    TARGET_BITCOIN_RELEASE
+    TARGET_LITECOIN_RELEASE
 )
 from node_launcher.services.node_software import NodeSoftwareABC
 
 
-class BitcoinSoftware(NodeSoftwareABC):
+class LitecoinSoftware(NodeSoftwareABC):
 
     def __init__(self, override_directory: str = None):
         super().__init__(override_directory)
-        self.release_version = TARGET_BITCOIN_RELEASE.replace('v', '')
-        self.github_team = 'bitcoin'
-        self.github_repo = 'bitcoin'
+        self.release_version = TARGET_LITECOIN_RELEASE.replace('v', '')
+        self.github_team = 'litecoin-project'
+        self.github_repo = 'litecoin'
 
     @property
-    def bitcoin_qt(self) -> str:
-        return self.executable_path('bitcoin-qt')
+    def litecoin_qt(self) -> str:
+        return self.executable_path('litecoin-qt')
 
     @property
-    def bitcoin_cli(self) -> str:
-        return self.executable_path('bitcoin-cli')
+    def litecoin_cli(self) -> str:
+        return self.executable_path('litecoin-cli')
 
     @property
     def uncompressed_directory_name(self) -> str:
@@ -50,12 +50,18 @@ class BitcoinSoftware(NodeSoftwareABC):
             os_name = 'x86_64-linux-gnu'
         else:
             raise Exception(f'{OPERATING_SYSTEM} is not supported')
-        return f'bitcoin-{self.release_version}-{os_name}'
+        return f'litecoin-{self.release_version}-{os_name}'
 
     @property
     def download_url(self) -> str:
-        download_url = f'https://bitcoincore.org' \
-            f'/bin' \
-            f'/bitcoin-core-{self.release_version}' \
+        if IS_WINDOWS:
+            os_name = 'win'
+        elif IS_MACOS:
+            os_name = 'osx'
+        elif IS_LINUX:
+            os_name = 'linux'
+        download_url = f'https://download.litecoin.org' \
+            f'/litecoin-{self.release_version}' \
+            f'/{os_name}' \
             f'/{self.download_compressed_name}'
         return download_url

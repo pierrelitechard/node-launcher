@@ -88,7 +88,7 @@ class CliWidget(QDialog):
         # This is just for generating the command lists in constants
         # commands = None
         # if '== Blockchain ==' in message:
-        #     commands = self.parse_bitcoin_cli_commands(message)
+        #     commands = self.parse_litecoin_cli_commands(message)
         # elif 'lncli [global options] command [command options]' in message:
         #     commands = self.parse_lncli_commands(message)
         # if commands is not None:
@@ -97,8 +97,8 @@ class CliWidget(QDialog):
         max_scroll = self.output.verticalScrollBar().maximum()
         self.output.verticalScrollBar().setValue(max_scroll)
 
-    def parse_bitcoin_cli_commands(self, message: str):
-        log.debug('parse_bitcoin_cli_commands')
+    def parse_litecoin_cli_commands(self, message: str):
+        log.debug('parse_litecoin_cli_commands')
         commands = []
         for line in message.split(sep='\n'):
             line = line.strip()

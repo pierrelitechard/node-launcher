@@ -8,7 +8,7 @@ import psutil as psutil
 
 from node_launcher.constants import (
     AUTOPRUNE_GB,
-    BITCOIN_DATA_PATH,
+    LITECOIN_DATA_PATH,
     GIGABYTE,
     OPERATING_SYSTEM
 )
@@ -80,13 +80,13 @@ class HardDrives(object):
 
     @staticmethod
     def is_default_partition(partition: Partition):
-        default_partition = os.path.join(BITCOIN_DATA_PATH[OPERATING_SYSTEM], os.pardir)
+        default_partition = os.path.join(LITECOIN_DATA_PATH[OPERATING_SYSTEM], os.pardir)
         default_partition = Path(default_partition).drive
         partition = Path(partition.mountpoint).drive
         return default_partition == partition
 
     @staticmethod
-    def should_prune(input_directory: str, has_bitcoin: bool) -> bool:
+    def should_prune(input_directory: str, has_litecoin: bool) -> bool:
         directory = os.path.realpath(input_directory)
         try:
             total, used, free, percent = psutil.disk_usage(os.path.realpath(directory))
@@ -98,26 +98,26 @@ class HardDrives(object):
                 exc_info=True
             )
             return False
-        if has_bitcoin:
-            bitcoin_bytes = get_dir_size(directory)
-            free += bitcoin_bytes
+        if has_litecoin:
+            litecoin_bytes = get_dir_size(directory)
+            free += litecoin_bytes
         else:
-            bitcoin_bytes = 0
+            litecoin_bytes = 0
         free_gb = math.floor(free / GIGABYTE)
-        bitcoin_gb = math.ceil(bitcoin_bytes / GIGABYTE)
-        free_gb += bitcoin_gb
+        litecoin_gb = math.ceil(litecoin_bytes / GIGABYTE)
+        free_gb += litecoin_gb
         should_prune = free_gb < AUTOPRUNE_GB
         log.info(
             'should_prune',
             input_directory=input_directory,
-            has_bitcoin=has_bitcoin,
+            has_litecoin=has_litecoin,
             total=total,
             used=used,
             free=free,
-            bitcoin_bytes=bitcoin_bytes,
+            litecoin_bytes=litecoin_bytes,
             percent=percent,
             free_gb=free_gb,
-            bitcoin_gb=bitcoin_gb,
+            litecoin_gb=litecoin_gb,
             should_prune=should_prune
         )
         return should_prune

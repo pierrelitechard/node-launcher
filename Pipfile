@@ -1,0 +1,32 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+colorama = "*"
+dataclasses = "*"
+googleapis-common-protos = "*"
+grpcio = "*"
+grpcio-tools = "*"
+jinja2 = "*"
+keyring = "*"
+pillow = "*"
+protobuf = "*"
+psutil = "*"
+pygments = "*"
+pyinstaller = "*"
+pyside2 = "<=5.12.0"
+pytest = "*"
+pytest-qt = "*"
+qrcode = "*"
+requests = "*"
+shiboken2 = "<=5.12.0"
+structlog = "*"
+webassets = "*"
+wtforms = "*"
+
+[requires]
+python_version = "3.7"

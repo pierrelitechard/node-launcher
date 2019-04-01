@@ -6,31 +6,31 @@ from typing import Optional, List
 import psutil
 from node_launcher.exceptions import ZmqPortsNotOpenError
 from node_launcher.logging import log
-from node_launcher.services.bitcoin_software import BitcoinSoftware
+from node_launcher.services.litecoin_software import LitecoinSoftware
 from node_launcher.services.configuration_file import ConfigurationFile
 from node_launcher.constants import (
-    BITCOIN_DATA_PATH,
+    LITECOIN_DATA_PATH,
     OPERATING_SYSTEM,
     IS_WINDOWS,
     TESTNET_PRUNE,
     MAINNET_PRUNE,
-    TESTNET, MAINNET, BITCOIN_MAINNET_PEER_PORT, BITCOIN_MAINNET_RPC_PORT,
-    BITCOIN_TESTNET_RPC_PORT, BITCOIN_TESTNET_PEER_PORT)
+    TESTNET, MAINNET, LITECOIN_MAINNET_PEER_PORT, LITECOIN_MAINNET_RPC_PORT,
+    LITECOIN_TESTNET_RPC_PORT, LITECOIN_TESTNET_PEER_PORT)
 from node_launcher.services.hard_drives import HardDrives
 from node_launcher.utilities.utilities import get_random_password, get_zmq_port
 
 
-class Bitcoin(object):
+class Litecoin(object):
     file: ConfigurationFile
     hard_drives: HardDrives
     process: Optional[psutil.Process]
-    software: BitcoinSoftware
+    software: LitecoinSoftware
     zmq_block_port: int
     zmq_tx_port: int
 
     def __init__(self, configuration_file_path: str):
         self.hard_drives = HardDrives()
-        self.software = BitcoinSoftware()
+        self.software = LitecoinSoftware()
         self.file = ConfigurationFile(configuration_file_path)
         self.running = False
         self.process = None
@@ -38,8 +38,8 @@ class Bitcoin(object):
         if self.file['datadir'] is None:
             self.autoconfigure_datadir()
 
-        if 'bitcoin.conf' in os.listdir(self.file['datadir']):
-            actual_conf_file = os.path.join(self.file['datadir'], 'bitcoin.conf')
+        if 'litecoin.conf' in os.listdir(self.file['datadir']):
+            actual_conf_file = os.path.join(self.file['datadir'], 'litecoin.conf')
             log.info(
                 'datadir_redirect',
                 configuration_file_path=configuration_file_path,
@@ -69,7 +69,7 @@ class Bitcoin(object):
             self.file['rpcpassword'] = get_random_password()
 
         if self.file['prune'] is None:
-            should_prune = self.hard_drives.should_prune(self.file['datadir'], has_bitcoin=True)
+            should_prune = self.hard_drives.should_prune(self.file['datadir'], has_litecoin=True)
             self.set_prune(should_prune)
 
         if not self.detect_zmq_ports():
@@ -155,8 +155,8 @@ class Bitcoin(object):
         if custom_port is not None:
             return custom_port
         if self.file['testnet']:
-            return BITCOIN_TESTNET_PEER_PORT
-        return BITCOIN_MAINNET_PEER_PORT
+            return LITECOIN_TESTNET_PEER_PORT
+        return LITECOIN_MAINNET_PEER_PORT
 
     @property
     def rpc_port(self):
@@ -167,14 +167,14 @@ class Bitcoin(object):
         if custom_port is not None:
             return custom_port
         if self.file['testnet']:
-            return BITCOIN_TESTNET_RPC_PORT
-        return BITCOIN_MAINNET_RPC_PORT
+            return LITECOIN_TESTNET_RPC_PORT
+        return LITECOIN_MAINNET_RPC_PORT
 
     def set_prune(self, should_prune: bool = None):
 
         if should_prune is None:
             should_prune = self.hard_drives.should_prune(self.file['datadir'],
-                                                         has_bitcoin=True)
+                                                         has_litecoin=True)
         if should_prune:
             if self.file['testnet']:
                 prune = TESTNET_PRUNE
@@ -186,11 +186,11 @@ class Bitcoin(object):
         self.file['txindex'] = not should_prune
 
     def autoconfigure_datadir(self):
-        default_datadir = BITCOIN_DATA_PATH[OPERATING_SYSTEM]
+        default_datadir = LITECOIN_DATA_PATH[OPERATING_SYSTEM]
         big_drive = self.hard_drives.get_big_drive()
         default_is_big_enough = not self.hard_drives.should_prune(
             input_directory=default_datadir,
-            has_bitcoin=True
+            has_litecoin=True
         )
         default_is_biggest = self.hard_drives.is_default_partition(big_drive)
         log.info(
@@ -207,7 +207,7 @@ class Bitcoin(object):
             return
 
         if not self.hard_drives.should_prune(big_drive.mountpoint, False):
-            datadir = os.path.join(big_drive.mountpoint, 'Bitcoin')
+            datadir = os.path.join(big_drive.mountpoint, 'Litecoin')
             self.file['datadir'] = datadir
             log.info(
                 'autoconfigure_datadir',
@@ -239,7 +239,7 @@ class Bitcoin(object):
             processes = psutil.process_iter()
         except:
             log.warning(
-                'Bitcoin.find_running_node',
+                'Litecoin.find_running_node',
                 exc_info=True
             )
             return None
@@ -249,7 +249,7 @@ class Bitcoin(object):
                     continue
             except:
                 log.warning(
-                    'Bitcoin.find_running_node',
+                    'Litecoin.find_running_node',
                     exc_info=True
                 )
                 continue
@@ -258,11 +258,11 @@ class Bitcoin(object):
                 process_name = process.name()
             except:
                 log.warning(
-                    'Bitcoin.find_running_node',
+                    'Litecoin.find_running_node',
                     exc_info=True
                 )
                 continue
-            if 'bitcoin' in process_name:
+            if 'litecoin' in process_name:
                 # noinspection PyBroadException
                 try:
                     for connection in process.connections():
@@ -272,7 +272,7 @@ class Bitcoin(object):
                             return process
                 except:
                     log.warning(
-                        'Bitcoin.find_running_node',
+                        'Litecoin.find_running_node',
                         exc_info=True
                     )
                     continue
@@ -287,7 +287,7 @@ class Bitcoin(object):
         if len(ports) != 2:
             raise ZmqPortsNotOpenError(
                 'ZMQ ports are not open on your node, '
-                'please close Bitcoin Core and launch it with the Node Launcher'
+                'please close Litecoin Core and launch it with the Node Launcher'
             )
         self.zmq_block_port = min(ports)
         self.zmq_tx_port = max(ports)
@@ -295,8 +295,8 @@ class Bitcoin(object):
         self.file['zmqpubrawtx'] = f'tcp://127.0.0.1:{self.zmq_tx_port}'
         return True
 
-    def bitcoin_qt(self) -> List[str]:
-        command = [self.software.bitcoin_qt]
+    def litecoin_qt(self) -> List[str]:
+        command = [self.software.litecoin_qt]
         args = [
             f'-conf={self.file.path}',
         ]
@@ -306,26 +306,26 @@ class Bitcoin(object):
             ]
         command += args
         log.info(
-            'bitcoin_qt',
+            'litecoin_qt',
             command=command,
             **self.file.cache
         )
         return command
 
-    def bitcoin_cli_arguments(self) -> List[str]:
+    def litecoin_cli_arguments(self) -> List[str]:
         return [f'-conf={self.file.path}']
 
     @property
-    def bitcoin_cli(self) -> str:
+    def litecoin_cli(self) -> str:
         command = [
-            f'"{self.software.bitcoin_cli}"',
+            f'"{self.software.litecoin_cli}"',
             f'-conf="{self.file.path}"',
         ]
         return ' '.join(command)
 
     def launch(self):
         self.config_snapshot = self.file.snapshot.copy()
-        command = self.bitcoin_qt()
+        command = self.litecoin_qt()
         if IS_WINDOWS:
             from subprocess import DETACHED_PROCESS, CREATE_NEW_PROCESS_GROUP
             command[0] = '"' + command[0] + '"'

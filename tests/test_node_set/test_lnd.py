@@ -47,26 +47,26 @@ class TestDirectoryConfiguration(object):
         result = lnd.launch()
         assert result
 
-    def test_bitcoin_file_changed(self, lnd: Lnd):
-        lnd.bitcoin.file['rpcport'] = 8338
-        lnd.bitcoin.running = False
-        lnd.bitcoin.config_file_changed()
-        lnd.bitcoin_config_file_changed()
+    def test_litecoin_file_changed(self, lnd: Lnd):
+        lnd.litecoin.file['rpcport'] = 9338
+        lnd.litecoin.running = False
+        lnd.litecoin.config_file_changed()
+        lnd.litecoin_config_file_changed()
         new_config = lnd.file.snapshot
         lnd.running = False
-        assert lnd.file['bitcoind.rpchost'] == new_config['bitcoind.rpchost'] == '127.0.0.1:8338'
+        assert lnd.file['litecoind.rpchost'] == new_config['litecoind.rpchost'] == '127.0.0.1:9338'
         assert lnd.restart_required == False
-        lnd.bitcoin.running = True
-        lnd.bitcoin.config_snapshot = lnd.bitcoin.file.snapshot
-        assert lnd.bitcoin.config_snapshot['rpcport'] == 8338
-        lnd.bitcoin.file['rpcport'] = 8340
-        lnd.bitcoin.config_file_changed()
-        lnd.bitcoin_config_file_changed()
+        lnd.litecoin.running = True
+        lnd.litecoin.config_snapshot = lnd.litecoin.file.snapshot
+        assert lnd.litecoin.config_snapshot['rpcport'] == 9338
+        lnd.litecoin.file['rpcport'] = 9340
+        lnd.litecoin.config_file_changed()
+        lnd.litecoin_config_file_changed()
         new_config = lnd.file.snapshot
-        assert lnd.file['bitcoind.rpchost'] == new_config['bitcoind.rpchost'] == '127.0.0.1:8340'
+        assert lnd.file['litecoind.rpchost'] == new_config['litecoind.rpchost'] == '127.0.0.1:9340'
         assert lnd.restart_required == False
         lnd.running = True
-        assert lnd.bitcoin.restart_required == True
+        assert lnd.litecoin.restart_required == True
         assert lnd.restart_required == True
 
     def test_file_changed(self, lnd: Lnd):

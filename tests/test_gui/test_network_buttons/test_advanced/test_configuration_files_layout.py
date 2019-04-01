@@ -10,7 +10,7 @@ from node_launcher.gui.network_buttons.advanced import ConfigurationFilesLayout
 @pytest.fixture
 def actions_layout() -> ConfigurationFilesLayout:
     node_set = MagicMock()
-    node_set.bitcoin.file.directory = '/test/bitcoin'
+    node_set.litecoin.file.directory = '/test/litecoin'
     node_set.lnd.file.directory = '/test/lnd'
     actions_layout = ConfigurationFilesLayout(node_set)
     return actions_layout
@@ -18,12 +18,12 @@ def actions_layout() -> ConfigurationFilesLayout:
 
 class TestActionsLayout(object):
     @patch('node_launcher.gui.network_buttons.advanced.configuration_files_layout.reveal')
-    def test_show_bitcoin_conf(self,
+    def test_show_litecoin_conf(self,
                                reveal_patch: MagicMock,
                                actions_layout: ConfigurationFilesLayout,
                                qtbot: QTest):
-        qtbot.mouseClick(actions_layout.show_bitcoin_conf, Qt.LeftButton)
-        reveal_patch.assert_called_with('/test/bitcoin')
+        qtbot.mouseClick(actions_layout.show_litecoin_conf, Qt.LeftButton)
+        reveal_patch.assert_called_with('/test/litecoin')
 
     @patch('node_launcher.gui.network_buttons.advanced.configuration_files_layout.reveal')
     def test_show_lnd_conf(self,

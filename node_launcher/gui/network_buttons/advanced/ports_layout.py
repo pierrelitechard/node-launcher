@@ -17,8 +17,8 @@ class PortsLayout(QGridLayout):
             f'>port forwarding</a>)'
         )
 
-        self.bitcoin_network_port = SelectableText(
-            f'Bitcoin network peer port: {self.node_set.bitcoin.node_port}'
+        self.litecoin_network_port = SelectableText(
+            f'Litecoin network peer port: {self.node_set.litecoin.node_port}'
         )
 
         self.lnd_network_port = SelectableText(
@@ -26,7 +26,7 @@ class PortsLayout(QGridLayout):
         )
 
         self.addWidget(self.network_ports)
-        self.addWidget(self.bitcoin_network_port)
+        self.addWidget(self.litecoin_network_port)
         self.addWidget(self.lnd_network_port)
 
         self.addWidget(HorizontalLine())
@@ -37,14 +37,14 @@ class PortsLayout(QGridLayout):
         self.addWidget(self.client_ports)
 
         self.zmq_ports = SelectableText(
-            f'Bitcoin ZMQ block/tx ports:'
-            f' {self.node_set.bitcoin.zmq_block_port}'
-            f'/{self.node_set.bitcoin.zmq_tx_port}'
+            f'Litecoin ZMQ block/tx ports:'
+            f' {self.node_set.litecoin.zmq_block_port}'
+            f'/{self.node_set.litecoin.zmq_tx_port}'
         )
         self.addWidget(self.zmq_ports)
 
         self.rpc_port = SelectableText(
-            f'Bitcoin RPC port: {self.node_set.bitcoin.rpc_port}'
+            f'Litecoin RPC port: {self.node_set.litecoin.rpc_port}'
         )
         self.addWidget(self.rpc_port)
 
@@ -57,32 +57,32 @@ class PortsLayout(QGridLayout):
             f'LND REST port: {self.node_set.lnd.rest_port}'
         )
         self.addWidget(self.rest_port)
-        self.bitcoin_restart_required = WarningText(
-            'Config file changed: Restart Bitcoin'
+        self.litecoin_restart_required = WarningText(
+            'Config file changed: Restart Litecoin'
         )
-        self.addWidget(self.bitcoin_restart_required)
-        self.bitcoin_restart_required.hide()
+        self.addWidget(self.litecoin_restart_required)
+        self.litecoin_restart_required.hide()
         self.lnd_restart_required = WarningText(
             'Config file changed: Restart LND'
         )
         self.addWidget(self.lnd_restart_required)
         self.lnd_restart_required.hide()
 
-        self.node_set.bitcoin.file.file_watcher.fileChanged.connect(self.refresh_bitcoin_ports)
+        self.node_set.litecoin.file.file_watcher.fileChanged.connect(self.refresh_litecoin_ports)
         self.node_set.lnd.file.file_watcher.fileChanged.connect(self.refresh_lnd_ports)
 
 
-    def refresh_bitcoin_ports(self):
-        self.bitcoin_network_port.setText(
-            f'Bitcoin network peer port: {self.node_set.bitcoin.node_port}'
+    def refresh_litecoin_ports(self):
+        self.litecoin_network_port.setText(
+            f'Litecoin network peer port: {self.node_set.litecoin.node_port}'
         )
         self.zmq_ports.setText(
-            f'Bitcoin ZMQ block/tx ports:'
-            f' {self.node_set.bitcoin.zmq_block_port}'
-            f'/{self.node_set.bitcoin.zmq_tx_port}'
+            f'Litecoin ZMQ block/tx ports:'
+            f' {self.node_set.litecoin.zmq_block_port}'
+            f'/{self.node_set.litecoin.zmq_tx_port}'
         )
         self.rpc_port.setText(
-            f'Bitcoin RPC port: {self.node_set.bitcoin.rpc_port}'
+            f'Litecoin RPC port: {self.node_set.litecoin.rpc_port}'
         )
         self.check_restart_required()
 
@@ -99,10 +99,10 @@ class PortsLayout(QGridLayout):
         self.check_restart_required()
 
     def check_restart_required(self):
-        if self.node_set.bitcoin.restart_required:
-            self.bitcoin_restart_required.show()
+        if self.node_set.litecoin.restart_required:
+            self.litecoin_restart_required.show()
         else:
-            self.bitcoin_restart_required.hide()
+            self.litecoin_restart_required.hide()
 
         if self.node_set.lnd.restart_required:
             self.lnd_restart_required.show()

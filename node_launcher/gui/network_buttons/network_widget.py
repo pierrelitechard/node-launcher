@@ -46,7 +46,7 @@ class NetworkWidget(QWidget):
         single_timer.singleShot(300, self.refresh)
 
     def refresh(self):
-        self.node_set.bitcoin.check_process()
+        self.node_set.litecoin.check_process()
         self.node_set.lnd.check_process()
 
         self.nodes_layout.set_button_state()

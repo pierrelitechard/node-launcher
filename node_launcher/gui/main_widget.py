@@ -67,7 +67,7 @@ class MainWidget(QWidget):
         self.grid.addWidget(self.network_grid)
         self.setLayout(self.grid)
 
-        self.settings_tab.bitcoin_tab.change_network.connect(self.change_network)
+        self.settings_tab.litecoin_tab.change_network.connect(self.change_network)
 
         timer = QTimer()
         timer.singleShot(1000, self.check_version)
@@ -77,7 +77,7 @@ class MainWidget(QWidget):
         if index == 1:
             self.network_grid.lncli_widget.input.setFocus()
         elif index == 2:
-            self.network_grid.bitcoin_cli_widget.input.setFocus()
+            self.network_grid.litecoin.input.setFocus()
 
     def check_version(self):
         latest_version = LauncherSoftware().get_latest_release_version()
@@ -106,7 +106,7 @@ class MainWidget(QWidget):
             message_box.exec_()
 
     def change_network(self, network: Network):
-        self.network_widget.nodes_layout.image_label.set_image(f'bitcoin-{network}.png')
+        self.network_widget.nodes_layout.image_label.set_image(f'litecoin-{network}.png')
 
     def mousePressEvent(self, event):
         focused_widget = QApplication.focusWidget()

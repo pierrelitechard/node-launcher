@@ -1,6 +1,6 @@
 from PySide2.QtWidgets import QDialog, QTabWidget, QDialogButtonBox, QVBoxLayout
 
-from node_launcher.gui.settings.bitcoin_tab import BitcoinTab
+from node_launcher.gui.settings.litecoin_tab import LitecoinTab
 from node_launcher.gui.settings.lnd_tab import LndTab
 from node_launcher.node_set import NodeSet
 
@@ -11,8 +11,8 @@ class SettingsTabDialog(QDialog):
         self.node_set = node_set
         self.tab_widget = QTabWidget()
 
-        self.bitcoin_tab = BitcoinTab(self.node_set.bitcoin)
-        self.tab_widget.addTab(self.bitcoin_tab, 'Bitcoin')
+        self.litecoin_tab = LitecoinTab(self.node_set.litecoin)
+        self.tab_widget.addTab(self.litecoin_tab, 'Litecoin')
 
         self.lnd_tab = LndTab(self.node_set.lnd)
         self.tab_widget.addTab(self.lnd_tab, 'LND')
