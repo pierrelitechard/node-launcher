@@ -92,8 +92,8 @@ class LndWalletLayout(QGridLayout):
         )
 
     def auto_unlock_wallet(self):
-        keyring_service_name = f'lnd_{self.node_set.bitcoin.network}_wallet_password'
-        keyring_user_name = self.node_set.bitcoin.file['rpcuser']
+        keyring_service_name = f'lnd_{self.node_set.litecoin.network}_wallet_password'
+        keyring_user_name = self.node_set.litecoin.file['rpcuser']
         log.info(
             'auto_unlock_wallet_get_password',
             keyring_service_name=keyring_service_name,
@@ -184,7 +184,7 @@ class LndWalletLayout(QGridLayout):
 
     def unlock_wallet(self):
         password = self.password_prompt(
-            title=f'Unlock {self.node_set.bitcoin.network} LND Wallet',
+            title=f'Unlock {self.node_set.litecoin.network} LND Wallet',
             label='Wallet Password'
         )
 
@@ -200,7 +200,7 @@ class LndWalletLayout(QGridLayout):
             return
 
         timestamp = str(time.time())
-        keyring_service_name = f'lnd_{self.node_set.bitcoin.network}_wallet_password'
+        keyring_service_name = f'lnd_{self.node_set.litecoin.network}_wallet_password'
         log.info(
             'unlock_wallet',
             keyring_service_name=keyring_service_name,
@@ -214,7 +214,7 @@ class LndWalletLayout(QGridLayout):
 
         keyring.set_password(
             service=keyring_service_name,
-            username=self.node_set.bitcoin.file['rpcuser'],
+            username=self.node_set.litecoin.file['rpcuser'],
             password=password)
 
     def get_new_password(self, title: str, password_name: str) -> str:
@@ -253,7 +253,7 @@ class LndWalletLayout(QGridLayout):
 
         seed = generate_seed_response.cipher_seed_mnemonic
 
-        keyring_service_name = f'lnd_{self.node_set.bitcoin.network}_seed'
+        keyring_service_name = f'lnd_{self.node_set.litecoin.network}_seed'
         keyring_user_name = ''.join(seed[0:2])
         log.info(
             'generate_seed',
@@ -285,11 +285,11 @@ class LndWalletLayout(QGridLayout):
 
     def create_wallet(self):
         new_wallet_password = self.get_new_password(
-            title=f'Create {self.node_set.bitcoin.network} LND Wallet',
+            title=f'Create {self.node_set.litecoin.network} LND Wallet',
             password_name='LND Wallet'
         )
 
-        keyring_service_name = f'lnd_{self.node_set.bitcoin.network}_wallet_password'
+        keyring_service_name = f'lnd_{self.node_set.litecoin.network}_wallet_password'
         keyring_user_name = str(time.time())
         log.info(
             'create_wallet',
@@ -304,7 +304,7 @@ class LndWalletLayout(QGridLayout):
         )
 
         new_seed_password = self.get_new_password(
-            title=f'Create {self.node_set.bitcoin.network} LND Wallet',
+            title=f'Create {self.node_set.litecoin.network} LND Wallet',
             password_name='Mnemonic Seed'
         )
 
@@ -327,13 +327,13 @@ class LndWalletLayout(QGridLayout):
             return
 
         keyring.set_password(
-            service=f'lnd_{self.node_set.bitcoin.network}_wallet_password',
-            username=self.node_set.bitcoin.file['rpcuser'],
+            service=f'lnd_{self.node_set.litecoin.network}_wallet_password',
+            username=self.node_set.litecoin.file['rpcuser'],
             password=new_wallet_password
         )
 
     def recover_wallet(self):
-        title = f'Recover {self.node_set.bitcoin.network} LND Wallet'
+        title = f'Recover {self.node_set.litecoin.network} LND Wallet'
         new_wallet_password = self.get_new_password(
             title=title,
             password_name='LND Wallet'
@@ -353,7 +353,7 @@ class LndWalletLayout(QGridLayout):
             raise Exception()
         seed_list = seed.split(' ')
 
-        keyring_service_name = f'lnd_{self.node_set.bitcoin.network}'
+        keyring_service_name = f'lnd_{self.node_set.litecoin.network}'
         keyring_user_name = str(time.time())
         log.info(
             'recover_wallet',
@@ -395,7 +395,7 @@ class LndWalletLayout(QGridLayout):
             return
 
         keyring.set_password(
-            service=f'lnd_{self.node_set.bitcoin.network}_wallet_password',
-            username=self.node_set.bitcoin.file['rpcuser'],
+            service=f'lnd_{self.node_set.litecoin.network}_wallet_password',
+            username=self.node_set.litecoin.file['rpcuser'],
             password=new_wallet_password
         )

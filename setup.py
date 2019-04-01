@@ -13,10 +13,10 @@ from setuptools import find_packages, setup, Command
 
 # Package meta-data.
 NAME = 'node_launcher'
-DESCRIPTION = 'Launch Bitcoin and Lightning nodes on mainnet and testnet.'
-URL = 'https://github.com/pierre_rochard/node-launcher'
-EMAIL = 'pierre@rochard.org'
-AUTHOR = 'Pierre Rochard'
+DESCRIPTION = 'Launch Litecoin and Lightning nodes on mainnet and testnet.'
+URL = 'https://github.com/pierrelitechard/node-launcher'
+EMAIL = 'pierre.litechard@protonmail.com'
+AUTHOR = 'Pierre Litechard'
 REQUIRES_PYTHON = '>=3.7.0'
 VERSION = None
 

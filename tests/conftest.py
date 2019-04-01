@@ -5,7 +5,7 @@ from node_launcher.constants import Network, TESTNET
 from node_launcher.node_set.lnd import Lnd
 from node_launcher.node_set.lnd_client import LndClient
 from node_launcher.node_set import NodeSet
-from node_launcher.node_set.bitcoin import Bitcoin
+from node_launcher.node_set.litecoin import Litecoin
 from node_launcher.gui.main_widget import MainWidget
 
 
@@ -15,23 +15,23 @@ def network() -> Network:
 
 
 @pytest.fixture
-def bitcoin(network: str) -> Bitcoin:
-    with NamedTemporaryFile(suffix='-bitcoin.conf', delete=False) as f:
-        bitcoin = Bitcoin(configuration_file_path=f.name)
-    return bitcoin
+def litecoin(network: str) -> Litecoin:
+    with NamedTemporaryFile(suffix='-litecoin.conf', delete=False) as f:
+        litecoin = Litecoin(configuration_file_path=f.name)
+    return litecoin
 
 
 @pytest.fixture
-def lnd(network: str, bitcoin: Bitcoin) -> Lnd:
-    with NamedTemporaryFile(suffix='-lnd.conf', delete=False) as f:
+def lnd(network: str, litecoin: Litecoin) -> Lnd:
+    with NamedTemporaryFile(suffix='-lnd-ltc.conf', delete=False) as f:
         lnd = Lnd(configuration_file_path=f.name,
-                  bitcoin=bitcoin)
+                  litecoin=litecoin)
     return lnd
 
 
 @pytest.fixture
 def node_set(network: str,
-             bitcoin: Bitcoin,
+             litecoin: Litecoin,
              lnd: Lnd) -> NodeSet:
     configuration = NodeSet()
     return configuration

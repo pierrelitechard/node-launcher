@@ -12,7 +12,7 @@ from node_launcher.gui.utilities import reveal
 class DataDirectoryBox(QGroupBox):
 
     def __init__(self):
-        super().__init__('Bitcoin Data Directory')
+        super().__init__('Litecoin Data Directory')
         self.file_dialog = SelectDirectoryDialog(self)
 
         self.datadir = None

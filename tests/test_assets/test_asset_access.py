@@ -21,10 +21,10 @@ class TestAssetAccess(object):
         assert os.path.isdir(assets_directory)
         assert asset_access.assets_directory == assets_directory
 
-    def test_bitcoin_mainnet_png(self, asset_access: AssetAccess):
-        path = asset_access.get_asset_full_path('bitcoin-mainnet.png')
+    def test_litecoin_mainnet_png(self, asset_access: AssetAccess):
+        path = asset_access.get_asset_full_path('litecoin-mainnet.png')
         assert os.path.isfile(path)
 
-    def test_bitcoin_testnet_png(self, asset_access: AssetAccess):
-        path = asset_access.get_asset_full_path('bitcoin-testnet.png')
+    def test_litecoin_testnet_png(self, asset_access: AssetAccess):
+        path = asset_access.get_asset_full_path('litecoin-testnet.png')
         assert os.path.isfile(path)

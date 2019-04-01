@@ -17,14 +17,14 @@ class ConfigurationFilesLayout(QGridLayout):
 
         self.section_name = SectionName('Configuration Files')
         self.addWidget(self.section_name, column_span=self.columns)
-        self.show_bitcoin_conf = QtWidgets.QPushButton('Show bitcoin.conf')
+        self.show_litecoin_conf = QtWidgets.QPushButton('Show litecoin.conf')
         # noinspection PyUnresolvedReferences
-        self.show_bitcoin_conf.clicked.connect(
-            lambda: reveal(self.node_set.bitcoin.file.directory)
+        self.show_litecoin_conf.clicked.connect(
+            lambda: reveal(self.node_set.litecoin.file.directory)
         )
-        self.addWidget(self.show_bitcoin_conf)
+        self.addWidget(self.show_litecoin_conf)
 
-        self.show_lnd_conf = QtWidgets.QPushButton('Show lnd.conf')
+        self.show_lnd_conf = QtWidgets.QPushButton('Show lnd-ltc.conf')
         # noinspection PyUnresolvedReferences
         self.show_lnd_conf.clicked.connect(
             lambda: reveal(self.node_set.lnd.file.directory)

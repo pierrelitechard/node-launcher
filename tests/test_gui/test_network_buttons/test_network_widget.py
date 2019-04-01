@@ -23,5 +23,5 @@ class TestNetworkWidget(object):
                      network_widget: NetworkWidget,
                      qtbot: QTest):
         network_widget.refresh()
-        network_widget.node_set.bitcoin.check_process.assert_called()
+        network_widget.node_set.litecoin.check_process.assert_called()
         network_widget.node_set.lnd.check_process.assert_called()

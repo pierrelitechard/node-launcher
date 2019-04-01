@@ -1,7 +1,7 @@
 # Contributing
 
 Before contributing, please run the master branch and test as many features as you can. If you 
-identify any unexpected behavior, please file a bug report in https://github.com/PierreRochard/node-launcher/issues
+identify any unexpected behavior, please file a bug report in https://github.com/pierrelitechard/node-launcher/issues
 
 When contributing to this repository, please first discuss the change you wish to make via issue,
 email, or Twitter before making a change. We want to help you!
@@ -28,7 +28,7 @@ time preference, cleanliness, nationality, personal appearance, race, religion, 
 orientation.
 
 Please do not harass contributors and maintainers with altcoin support requests.
-This project is Bitcoin only, you will be digitally removed 
+This project is Litecoin only, you will be digitally removed 
 from the project if you do not respect that.
 
 ### Our Standards
@@ -39,7 +39,7 @@ include:
 * Using welcoming and inclusive language
 * Being respectful of differing viewpoints and experiences
 * Gracefully accepting constructive criticism
-* Focusing on what is best for Bitcoin
+* Focusing on what is best for Litecoin
 * Showing empathy towards our users and contributors
 
 Examples of unacceptable behavior by participants include:

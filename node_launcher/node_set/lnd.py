@@ -10,7 +10,7 @@ from typing import List, Optional
 
 import psutil
 from node_launcher.logging import log
-from node_launcher.node_set.bitcoin import Bitcoin
+from node_launcher.node_set.litecoin import Litecoin
 from node_launcher.services.configuration_file import ConfigurationFile
 from node_launcher.constants import (
     IS_LINUX,
@@ -31,10 +31,10 @@ class Lnd(object):
     software: LndSoftware
     process: Optional[psutil.Process]
 
-    def __init__(self, configuration_file_path: str, bitcoin: Bitcoin):
+    def __init__(self, configuration_file_path: str, litecoin: Litecoin):
         self.running = False
         self.is_unlocked = False
-        self.bitcoin = bitcoin
+        self.litecoin = litecoin
         self.file = ConfigurationFile(configuration_file_path)
         self.process = self.find_running_node()
         self.software = LndSoftware()
@@ -49,17 +49,17 @@ class Lnd(object):
         if self.file['debuglevel'] is None:
             self.file['debuglevel'] = 'info'
 
-        self.file['bitcoin.active'] = True
-        self.file['bitcoin.node'] = 'bitcoind'
-        self.file['bitcoind.rpchost'] = f'127.0.0.1:{self.bitcoin.rpc_port}'
-        self.file['bitcoind.rpcuser'] = self.bitcoin.file['rpcuser']
-        self.file['bitcoind.rpcpass'] = self.bitcoin.file['rpcpassword']
-        self.file['bitcoind.zmqpubrawblock'] = self.bitcoin.file[
+        self.file['litecoin.active'] = True
+        self.file['litecoin.node'] = 'litecoind'
+        self.file['litecoind.rpchost'] = f'127.0.0.1:{self.litecoin.rpc_port}'
+        self.file['litecoind.rpcuser'] = self.litecoin.file['rpcuser']
+        self.file['litecoind.rpcpass'] = self.litecoin.file['rpcpassword']
+        self.file['litecoind.zmqpubrawblock'] = self.litecoin.file[
             'zmqpubrawblock']
-        self.file['bitcoind.zmqpubrawtx'] = self.bitcoin.file['zmqpubrawtx']
+        self.file['litecoind.zmqpubrawtx'] = self.litecoin.file['zmqpubrawtx']
 
         if self.file['restlisten'] is None:
-            if self.bitcoin.file['testnet']:
+            if self.litecoin.file['testnet']:
                 self.rest_port = get_port(LND_DEFAULT_REST_PORT + 1)
             else:
                 self.rest_port = get_port(LND_DEFAULT_REST_PORT)
@@ -68,7 +68,7 @@ class Lnd(object):
             self.rest_port = self.file['restlisten'].split(':')[-1]
 
         if not self.file['rpclisten']:
-            if self.bitcoin.file['testnet']:
+            if self.litecoin.file['testnet']:
                 self.grpc_port = get_port(LND_DEFAULT_GRPC_PORT + 1)
             else:
                 self.grpc_port = get_port(LND_DEFAULT_GRPC_PORT)
@@ -83,17 +83,17 @@ class Lnd(object):
             self.lnddir,
             'data',
             'chain',
-            'bitcoin',
-            str(self.bitcoin.network)
+            'litecoin',
+            str(self.litecoin.network)
         )
         self.config_snapshot = self.file.snapshot.copy()
         self.file.file_watcher.fileChanged.connect(self.config_file_changed)
-        self.bitcoin.file.file_watcher.fileChanged.connect(self.bitcoin_config_file_changed)
+        self.litecoin.file.file_watcher.fileChanged.connect(self.litecoin_config_file_changed)
 
     @property
     def node_port(self) -> str:
         if self.file['listen'] is None:
-            if self.bitcoin.file['testnet']:
+            if self.litecoin.file['testnet']:
                 port = get_port(LND_DEFAULT_PEER_PORT + 1)
             else:
                 port = get_port(LND_DEFAULT_PEER_PORT)
@@ -173,7 +173,7 @@ class Lnd(object):
                         exc_info=True
                     )
                     continue
-                if str(self.bitcoin.network) not in log_file.path:
+                if str(self.litecoin.network) not in log_file.path:
                     continue
                 self.process = lnd_process
                 self.running = True
@@ -223,13 +223,13 @@ class Lnd(object):
             self.software.lnd,
             f'--configfile="{self.file.path}"'
         ]
-        if self.bitcoin.file['testnet']:
+        if self.litecoin.file['testnet']:
             command += [
-                '--bitcoin.testnet'
+                '--litecoin.testnet'
             ]
         else:
             command += [
-                '--bitcoin.mainnet'
+                '--litecoin.mainnet'
             ]
         log.info(
             'lnd',
@@ -242,8 +242,8 @@ class Lnd(object):
         args = []
         if self.grpc_port != LND_DEFAULT_GRPC_PORT:
             args.append(f'--rpcserver=127.0.0.1:{self.grpc_port}')
-        if self.bitcoin.file['testnet']:
-            args.append(f'--network={self.bitcoin.network}')
+        if self.litecoin.file['testnet']:
+            args.append(f'--network={self.litecoin.network}')
         if self.lnddir != LND_DIR_PATH[OPERATING_SYSTEM]:
             args.append(f'''--lnddir="{self.lnddir}"''')
             args.append(f'--macaroonpath="{self.macaroon_path}"')
@@ -311,22 +311,22 @@ class Lnd(object):
         if len(files_watched) == 0:
             self.file.file_watcher.addPath(self.file.path)
 
-    def bitcoin_config_file_changed(self):
+    def litecoin_config_file_changed(self):
         # Refresh config file
         self.file.file_watcher.blockSignals(True)
         self.file.populate_cache()
         self.file.file_watcher.blockSignals(False)
-        self.file['bitcoind.rpchost'] = f'127.0.0.1:{self.bitcoin.rpc_port}'
-        self.file['bitcoind.rpcuser'] = self.bitcoin.file['rpcuser']
-        self.file['bitcoind.rpcpass'] = self.bitcoin.file['rpcpassword']
-        self.file['bitcoind.zmqpubrawblock'] = self.bitcoin.file['zmqpubrawblock']
-        self.file['bitcoind.zmqpubrawtx'] = self.bitcoin.file['zmqpubrawtx']
+        self.file['litecoind.rpchost'] = f'127.0.0.1:{self.litecoin.rpc_port}'
+        self.file['litecoind.rpcuser'] = self.litecoin.file['rpcuser']
+        self.file['litecoind.rpcpass'] = self.litecoin.file['rpcpassword']
+        self.file['litecoind.zmqpubrawblock'] = self.litecoin.file['zmqpubrawblock']
+        self.file['litecoind.zmqpubrawtx'] = self.litecoin.file['zmqpubrawtx']
 
     @property
     def restart_required(self):
         if self.running:
-            # Did bitcoin details change
-            if self.bitcoin.restart_required:
+            # Did litecoin details change
+            if self.litecoin.restart_required:
                 return True and self.running
 
             old_config = self.config_snapshot.copy()
