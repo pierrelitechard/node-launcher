@@ -4,7 +4,7 @@ import pytest
 from PySide2.QtCore import Qt
 from PySide2.QtTest import QTest
 
-from node_launcher.gui.network_buttons.advanced import ConfigurationFilesLayout
+from node_launcher.gui.system_tray_widgets import ConfigurationFilesLayout
 
 
 @pytest.fixture
@@ -17,7 +17,7 @@ def actions_layout() -> ConfigurationFilesLayout:
 
 
 class TestActionsLayout(object):
-    @patch('node_launcher.gui.network_buttons.advanced.configuration_files_layout.reveal')
+    @patch('node_launcher.gui.system_tray_widgets.advanced.configuration_files_layout.reveal')
     def test_show_litecoin_conf(self,
                                reveal_patch: MagicMock,
                                actions_layout: ConfigurationFilesLayout,
@@ -25,7 +25,7 @@ class TestActionsLayout(object):
         qtbot.mouseClick(actions_layout.show_litecoin_conf, Qt.LeftButton)
         reveal_patch.assert_called_with('/test/litecoin')
 
-    @patch('node_launcher.gui.network_buttons.advanced.configuration_files_layout.reveal')
+    @patch('node_launcher.gui.system_tray_widgets.advanced.configuration_files_layout.reveal')
     def test_show_lnd_conf(self,
                            reveal_patch: MagicMock,
                            actions_layout: ConfigurationFilesLayout,

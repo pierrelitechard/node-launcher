@@ -3,9 +3,7 @@ from os.path import expanduser
 import platform
 from typing import Dict
 
-from node_launcher.logging import log
-
-NODE_LAUNCHER_RELEASE = '.'.join(map(str, (5, 6, '0-LTC')))
+NODE_LAUNCHER_RELEASE = '.'.join(map(str, (6, 0, '0-LTC')))
 
 TARGET_LITECOIN_RELEASE = 'v0.16.3'
 TARGET_LND_RELEASE = 'v0.5.2-beta'
@@ -64,6 +62,11 @@ NODE_LAUNCHER_DATA_PATH: Dict[OperatingSystem, str] = {
     WINDOWS: os.path.join(LOCALAPPDATA, 'Node Launcher')
 }
 
+try:
+    os.mkdir(os.path.join(NODE_LAUNCHER_DATA_PATH[OPERATING_SYSTEM]))
+except FileExistsError:
+    pass
+
 LND_DIR_PATH: Dict[OperatingSystem, str] = {
     DARWIN: expanduser('~/Library/Application Support/Lnd/'),
     LINUX: expanduser('~/.lnd/'),
@@ -112,15 +115,6 @@ LITECOIN_MAINNET_RPC_PORT = 9332
 LND_DEFAULT_PEER_PORT = 9735
 LND_DEFAULT_GRPC_PORT = 10009
 LND_DEFAULT_REST_PORT = 8080
-
-
-log.info(
-    'constants',
-    OPERATING_SYSTEM=OPERATING_SYSTEM,
-    NODE_LAUNCHER_RELEASE=NODE_LAUNCHER_RELEASE,
-    TARGET_LITECOIN_RELEASE=TARGET_LITECOIN_RELEASE,
-    TARGET_LND_RELEASE=TARGET_LND_RELEASE
-)
 
 LNCLI_COMMANDS = [
     'abandonchannel',

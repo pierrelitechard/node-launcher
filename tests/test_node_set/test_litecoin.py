@@ -1,16 +1,12 @@
 import os
 from tempfile import TemporaryDirectory
-from unittest.mock import MagicMock
 
-import pytest
-
-from node_launcher.node_set.litecoin import Litecoin
-from node_launcher.services.configuration_file import ConfigurationFile
 from node_launcher.constants import (
-    IS_WINDOWS,
     MAINNET_PRUNE,
     TESTNET_PRUNE
 )
+from node_launcher.node_set.litecoin import Litecoin
+from node_launcher.services.configuration_file import ConfigurationFile
 
 
 class TestLitecoinConfiguration(object):
@@ -71,21 +67,6 @@ class TestLitecoinConfiguration(object):
         txindex = litecoin.file['txindex']
         assert datadir
         assert prune != txindex
-
-    def test_detect_zmq_ports(self, litecoin: Litecoin):
-        result = litecoin.detect_zmq_ports()
-        assert litecoin.zmq_block_port < litecoin.zmq_tx_port
-        assert isinstance(result, bool)
-
-    @pytest.mark.slow
-    def test_launch(self, litecoin: Litecoin):
-        if IS_WINDOWS:
-            command = ['set', 'path']
-        else:
-            command = ['echo', 'hello']
-        litecoin.litecoin_qt = MagicMock(return_value=command)
-        result = litecoin.launch()
-        assert result.pid
 
     def test_file_changed(self, litecoin: Litecoin):
         litecoin.file['rpcport'] = 8338

@@ -2,8 +2,7 @@ from PySide2.QtCore import Qt, Signal
 from PySide2.QtWidgets import QWidget, QLabel, QCheckBox, QVBoxLayout
 
 from node_launcher.constants import Network, MAINNET, TESTNET
-from node_launcher.gui.settings.data_directories.data_directory_box import \
-    DataDirectoryBox
+from .data_directories.data_directory_box import DataDirectoryBox
 from node_launcher.node_set.litecoin import Litecoin
 
 
@@ -17,14 +16,11 @@ class LitecoinTab(QWidget):
 
         self.litecoin_layout = QVBoxLayout()
 
-        self.data_directory_group_box = DataDirectoryBox()
+        self.data_directory_group_box = DataDirectoryBox(litecoin=self.litecoin)
         self.data_directory_group_box.file_dialog.new_data_directory.connect(
             self.change_datadir
         )
-        self.data_directory_group_box.set_datadir(
-            self.litecoin.file['datadir'],
-            self.litecoin.file['prune']
-        )
+
         self.litecoin_layout.addWidget(self.data_directory_group_box)
         self.litecoin_layout.setAlignment(self.data_directory_group_box, Qt.AlignHCenter)
 
