@@ -34,9 +34,9 @@ class SettingsTabDialog(QDialog):
         if self.node_set.lnd.file['alias'] is not None:
             self.lnd_tab.alias_layout.set_alias(self.node_set.lnd.file['alias'])
 
-        self.bitcoin_tab.data_directory_group_box.set_datadir(
-            self.node_set.bitcoin.file['datadir'],
-            self.node_set.bitcoin.file['prune']
+        self.litecoin_tab.data_directory_group_box.set_datadir(
+            self.node_set.litecoin.file['datadir'],
+            self.node_set.litecoin.file['prune']
         )
         super().show()
         self.raise_()

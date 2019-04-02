@@ -27,8 +27,8 @@ class LitecoinSoftware(NodeSoftwareABC):
         return self.executable_path('litecoin-cli')
 
     @property
-    def bitcoind(self) -> str:
-        return self.executable_path('bitcoind')
+    def litecoind(self) -> str:
+        return self.executable_path('litecoind')
 
     @property
     def uncompressed_directory_name(self) -> str:

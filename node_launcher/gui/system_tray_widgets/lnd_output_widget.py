@@ -30,7 +30,7 @@ class LndOutputWidget(OutputWidget):
         self.old_timestamp = None
 
     def process_output_line(self, line: str):
-        if 'Active chain: Bitcoin' in line:
+        if 'Active chain: Litecoin' in line:
             self.system_tray.menu.lnd_status_action.setText(
                 'LND starting'
             )
@@ -162,8 +162,8 @@ class LndOutputWidget(OutputWidget):
                 self.error_message.showMessage(e._state.details)
                 return
             keyring.set_password(
-                service=f'lnd_{self.node_set.bitcoin.network}_wallet_password',
-                username=self.node_set.bitcoin.file['rpcuser'],
+                service=f'lnd_{self.node_set.litecoin.network}_wallet_password',
+                username=self.node_set.litecoin.file['rpcuser'],
                 password=new_wallet_password
             )
         else:
@@ -174,8 +174,8 @@ class LndOutputWidget(OutputWidget):
             )
 
     def auto_unlock_wallet(self):
-        keyring_service_name = f'lnd_{self.node_set.bitcoin.network}_wallet_password'
-        keyring_user_name = self.node_set.bitcoin.file['rpcuser']
+        keyring_service_name = f'lnd_{self.node_set.litecoin.network}_wallet_password'
+        keyring_user_name = self.node_set.litecoin.file['rpcuser']
         log.info(
             'auto_unlock_wallet_get_password',
             keyring_service_name=keyring_service_name,

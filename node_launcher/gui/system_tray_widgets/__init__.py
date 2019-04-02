@@ -12,11 +12,11 @@ from .settings import (
     PruneWarningLabel,
     SelectDirectoryDialog,
     AliasLayout,
-    BitcoinTab,
+    LitecoinTab,
     LndTab,
     SettingsTabDialog
 )
-from .bitcoind_output_widget import BitcoindOutputWidget
+from .litecoind_output_widget import LitecoindOutputWidget
 from .console_dialog import ConsoleDialog
 from .lnd_output_widget import LndOutputWidget
-from.restart_layout import RestartLayout
+from .restart_layout import RestartLayout

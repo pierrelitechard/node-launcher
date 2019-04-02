@@ -10,7 +10,7 @@ from node_launcher.node_set import NodeSet
 
 @pytest.fixture
 def data_directory_box() -> DataDirectoryBox:
-    data_directory_box = DataDirectoryBox(bitcoin=NodeSet().bitcoin)
+    data_directory_box = DataDirectoryBox(litecoin=NodeSet().litecoin)
     data_directory_box.file_dialog = MagicMock()
     return data_directory_box
 

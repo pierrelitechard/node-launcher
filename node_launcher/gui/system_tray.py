@@ -15,7 +15,7 @@ class SystemTray(QSystemTrayIcon):
         self.setContextMenu(self.menu)
 
     def set_icon(self, color: str):
-        path = asset_access.get_asset_full_path(f'bitcoin_logo_{color}.png')
+        path = asset_access.get_asset_full_path(f'litecoin_logo_{color}.png')
         pixmap = QPixmap(path)
         icon = QIcon(pixmap)
         self.setIcon(icon)

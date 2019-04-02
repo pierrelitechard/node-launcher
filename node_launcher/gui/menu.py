@@ -2,10 +2,10 @@ from PySide2.QtCore import QCoreApplication
 from PySide2.QtGui import QKeySequence, QClipboard
 from PySide2.QtWidgets import QMenu
 
-from node_launcher.constants import BITCOIN_CLI_COMMANDS, LNCLI_COMMANDS
+from node_launcher.constants import LITECOIN_CLI_COMMANDS, LNCLI_COMMANDS
 from node_launcher.gui.system_tray_widgets import (
     AdvancedWidget,
-    BitcoindOutputWidget,
+    LitecoindOutputWidget,
     ConsoleDialog,
     LndOutputWidget,
     SettingsTabDialog
@@ -20,29 +20,29 @@ class Menu(QMenu):
         self.node_set = node_set
         self.system_tray = system_tray
 
-        self.bitcoind_status_action = self.addAction('bitcoind off')
-        self.bitcoind_status_action.setEnabled(False)
+        self.litecoind_status_action = self.addAction('litecoind off')
+        self.litecoind_status_action.setEnabled(False)
 
-        # bitcoin console
-        self.bitcoin_cli_widget = ConsoleDialog(
-            title='bitcoin-cli',
-            program=self.node_set.bitcoin.software.bitcoin_cli,
-            args=self.node_set.bitcoin.args,
-            commands=BITCOIN_CLI_COMMANDS
+        # litecoin console
+        self.litecoin_cli_widget = ConsoleDialog(
+            title='litecoin-cli',
+            program=self.node_set.litecoin.software.litecoin_cli,
+            args=self.node_set.litecoin.args,
+            commands=LITECOIN_CLI_COMMANDS
         )
-        self.bitcoin_console_action = self.addAction('Open Bitcoin Console')
-        self.bitcoin_console_action.triggered.connect(
-            self.bitcoin_cli_widget.show
+        self.litecoin_console_action = self.addAction('Open Litecoin Console')
+        self.litecoin_console_action.triggered.connect(
+            self.litecoin_cli_widget.show
         )
 
-        # bitcoind output
-        self.bitcoind_output_widget = BitcoindOutputWidget(
+        # litecoind output
+        self.litecoind_output_widget = LitecoindOutputWidget(
             node_set=self.node_set,
             system_tray=self.system_tray
         )
-        self.bitcoind_output_action = self.addAction('See Bitcoin Output')
-        self.bitcoind_output_action.triggered.connect(
-            self.bitcoind_output_widget.show
+        self.litecoind_output_action = self.addAction('See Litecoin Output')
+        self.litecoind_output_action.triggered.connect(
+            self.litecoind_output_widget.show
         )
 
         self.addSeparator()

@@ -25,7 +25,7 @@ class Application(QApplication):
 
         self.system_tray.show()
 
-        self.node_set.bitcoin.file.file_watcher.fileChanged.connect(self.check_restart_required)
+        self.node_set.litecoin.file.file_watcher.fileChanged.connect(self.check_restart_required)
         self.node_set.lnd.file.file_watcher.fileChanged.connect(self.check_restart_required)
 
         self.timer = QTimer(self)
@@ -34,7 +34,7 @@ class Application(QApplication):
         self.timer.singleShot(1000, self.check_version)
 
     def check_restart_required(self):
-        if self.node_set.bitcoin.restart_required or self.node_set.lnd.restart_required:
+        if self.node_set.litecoin.restart_required or self.node_set.lnd.restart_required:
             pass
         else:
             pass
@@ -69,8 +69,8 @@ class Application(QApplication):
     def quit_app(self):
         self.node_set.lnd.process.terminate()
         self.node_set.lnd.process.waitForFinished(2000)
-        self.node_set.bitcoin.process.terminate()
-        self.node_set.bitcoin.process.waitForFinished(20000)
-        self.node_set.bitcoin.process.kill()
+        self.node_set.litecoin.process.terminate()
+        self.node_set.litecoin.process.waitForFinished(20000)
+        self.node_set.litecoin.process.kill()
 
         QCoreApplication.exit(0)

@@ -97,7 +97,7 @@ class Litecoin(object):
         self.file.file_watcher.fileChanged.connect(self.config_file_changed)
 
         self.process = QProcess()
-        self.process.setProgram(self.software.bitcoind)
+        self.process.setProgram(self.software.litecoind)
         self.process.setCurrentReadChannel(0)
         self.process.setArguments(self.args)
         self.process.start()
@@ -118,7 +118,7 @@ class Litecoin(object):
         }
         candidate_paths = []
         if self.file['testnet']:
-            datadir = os.path.join(self.file['datadir'], 'testnet3')
+            datadir = os.path.join(self.file['datadir'], 'testnet4')
             wallet_dir = self.file['test.walletdir']
             wallets = self.file['test.wallet']
         else:

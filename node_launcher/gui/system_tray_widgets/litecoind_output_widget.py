@@ -7,7 +7,7 @@ from node_launcher.gui.system_tray_widgets.output_widget import OutputWidget
 from node_launcher.node_set import NodeSet
 
 
-class BitcoindOutputWidget(OutputWidget):
+class LitecoindOutputWidget(OutputWidget):
     node_set: NodeSet
     process: QProcess
 
@@ -15,12 +15,13 @@ class BitcoindOutputWidget(OutputWidget):
         super().__init__()
         self.node_set = node_set
         self.system_tray = system_tray
-        self.process = node_set.bitcoin.process
+        self.process = node_set.litecoin.process
+        print(self.process)
 
         self.process.readyReadStandardError.connect(self.handle_error)
         self.process.readyReadStandardOutput.connect(self.handle_output)
 
-        self.setWindowTitle('Bitcoind Output')
+        self.setWindowTitle('Litecoind Output')
 
         self.threadpool = QThreadPool()
 
@@ -30,17 +31,18 @@ class BitcoindOutputWidget(OutputWidget):
         self.timestamp_changes = []
 
     def process_output_line(self, line: str):
-        if 'Bitcoin Core version' in line:
-            self.system_tray.menu.bitcoind_status_action.setText(
-                'Bitcoin starting'
+        print(line)
+        if 'Litecoin Core version' in line:
+            self.system_tray.menu.litecoind_status_action.setText(
+                'Litecoin starting'
             )
         elif 'Leaving InitialBlockDownload' in line:
-            self.system_tray.menu.bitcoind_status_action.setText(
-                'Bitcoin synced'
+            self.system_tray.menu.litecoind_status_action.setText(
+                'Litecoin synced'
             )
         elif 'Shutdown: done' in line:
-            self.system_tray.menu.bitcoind_status_action.setText(
-                'Error, please check Bitcoin Output'
+            self.system_tray.menu.litecoind_status_action.setText(
+                'Error, please check Litecoin Output'
             )
         elif 'UpdateTip' in line:
             line_segments = line.split(' ')
@@ -63,13 +65,13 @@ class BitcoindOutputWidget(OutputWidget):
                                 self.timestamp_changes.pop(0)
                             average_time_left = sum(self.timestamp_changes)/len(self.timestamp_changes)
                             humanized = humanize.naturaltime(-timedelta(seconds=average_time_left))
-                            self.system_tray.menu.bitcoind_status_action.setText(
+                            self.system_tray.menu.litecoind_status_action.setText(
                                 f'ETA: {humanized}, {new_progress*100:.2f}% done'
                             )
                         else:
                             if round(new_progress*100) == 100:
                                 continue
-                            self.system_tray.menu.bitcoind_status_action.setText(
+                            self.system_tray.menu.litecoind_status_action.setText(
                                 f'{new_progress*100:.2f}%'
                             )
 

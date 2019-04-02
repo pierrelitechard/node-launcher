@@ -5,6 +5,6 @@ from .data_directories import (
     SelectDirectoryDialog,
 )
 from .alias_layout import AliasLayout
-from .bitcoin_tab import BitcoinTab
+from .litecoin_tab import LitecoinTab
 from .lnd_tab import LndTab
 from .settings_tab_dialog import SettingsTabDialog
