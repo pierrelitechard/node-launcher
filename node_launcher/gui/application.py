@@ -25,6 +25,11 @@ class Application(QApplication):
 
         self.system_tray.show()
 
+        self.system_tray.showMessage(
+            'Nodes starting...',
+            'Litecoin and Lightning are syncing'
+        )
+
         self.node_set.litecoin.file.file_watcher.fileChanged.connect(self.check_restart_required)
         self.node_set.lnd.file.file_watcher.fileChanged.connect(self.check_restart_required)
 

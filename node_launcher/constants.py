@@ -3,10 +3,10 @@ from os.path import expanduser
 import platform
 from typing import Dict
 
-NODE_LAUNCHER_RELEASE = '.'.join(map(str, (6, 0, '0-LTC')))
+NODE_LAUNCHER_RELEASE = '.'.join(map(str, (6, 0, '2-LTC')))
 
 TARGET_LITECOIN_RELEASE = 'v0.16.3'
-TARGET_LND_RELEASE = 'v0.5.2-beta'
+TARGET_LND_RELEASE = 'v0.6-beta-rc3'
 
 
 class StringConstant(object):
